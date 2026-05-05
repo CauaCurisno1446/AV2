@@ -33,7 +33,7 @@ function Home() {
         </p>
 
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-2xl shadow-sm text-left">
+          <div className="bg-white p-6 rounded-2xl shadow-sm text-left duration-200 hover:scale-105 hover:shadow-xl">
             <div className="flex justify-center items-center w-10 h-10 bg-yellow-100 rounded-lg mb-4"><Settings className="text-yellow-500" /></div>
             <h3 className="font-semibold mb-2">Gerenciamento de peças</h3>
             <p className="text-gray-500 text-sm">
@@ -41,7 +41,7 @@ function Home() {
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow-sm text-left">
+          <div className="bg-white p-6 rounded-2xl shadow-sm text-left duration-200 hover:scale-105 hover:shadow-xl">
             <div className="flex justify-center items-center w-10 h-10 bg-blue-100 rounded-lg mb-4"><Plane className="text-blue-500" /></div>
             <h3 className="font-semibold mb-2">Gestão de Aeronaves</h3>
             <p className="text-gray-500 text-sm">
@@ -49,7 +49,7 @@ function Home() {
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow-sm text-left">
+          <div className="bg-white p-6 rounded-2xl shadow-sm text-left duration-200 hover:scale-105 hover:shadow-xl">
             <div className="flex justify-center items-center w-10 h-10 bg-purple-100 rounded-lg mb-4"><Users className="text-purple-500" /></div>
             <h3 className="font-semibold mb-2">Gerenciamento de Usuários</h3>
             <p className="text-gray-500 text-sm">

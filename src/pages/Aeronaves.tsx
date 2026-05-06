@@ -1,23 +1,99 @@
 import { useState } from 'react';
 import { Search } from 'lucide-react';
+import Modal from '../components/Modal';
 import aerFoto from "../assets/img/boeing.jpg"
 
 const mockAeronaves = [
-  { id: 1, nome: 'Aeronave 1', dados: ['Modelo: Boeing 737', 'Capacidade: 189', 'Status: Ativa'] },
-  { id: 2, nome: 'Aeronave 2', dados: ['Modelo: Airbus A320', 'Capacidade: 165', 'Status: Manutenção'] },
-  { id: 3, nome: 'Aeronave 3', dados: ['Modelo: Embraer E195', 'Capacidade: 118', 'Status: Ativa'] },
+  { id: 1, nome: 'Aeronave 1', dados: ['Modelo: Boeing 737', 'Tipo: Comercial', 'Capacidade: 189', 'Alcance: 300 Km'] },
+  { id: 2, nome: 'Aeronave 2', dados: ['Modelo: Airbus A320', 'Tipo: Militar', 'Capacidade: 400', 'Alcance: 400 Km'] },
+  { id: 3, nome: 'Aeronave 3', dados: ['Modelo: Embraer E195', 'Tipo: Comercial', 'Capacidade: 202', 'Alcance: 500 Km'] },
 ];
 
 function Aeronaves() {
   const [busca, setBusca] = useState('');
   const [selecionada, setSelecionada] = useState(mockAeronaves[0]);
+  const [modalCriar, setModalCriarAberto] = useState(false);
+  const [modalEditar, setModalEditarAberto] = useState(false);
 
   const aeronavesFiltradas = mockAeronaves.filter(a => 
     a.nome.toLowerCase().includes(busca.toLowerCase())
   );
 
+  const classeBtn = "cursor-pointer w-full bg-[var(--azul-escuro)] hover:hover:bg-[var(--azul)] text-white py-2 rounded transition-colors"
+  const styleInput = "border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all"
+
   return (
     <div className="min-h-screen bg-[var(--fundo)] text-slate-800 font-sans">
+
+        {modalCriar && (
+            <Modal titulo="Nova Aeronave" onClose={() => setModalCriarAberto(false)}>
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Modelo</label>
+                        <input type="text" placeholder="Ex: Aeronave 123" className={styleInput} />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Tipo</label>
+                        <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
+                            <option value="">Selecione...</option>
+                            <option>Comercial</option>
+                            <option>Militar</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Capacidade</label>
+                        <input type="text" placeholder="Ex: 300" className={styleInput} />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Alcance</label>
+                        <input type="text" placeholder="Ex: 1089" className={styleInput} />
+                    </div>
+                </div>
+
+                <div className="flex justify-end gap-3 pt-1">
+                    <button onClick={() => setModalCriarAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
+                    <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
+                </div>
+            </Modal>
+        )}
+
+        {modalEditar && (
+            <Modal titulo="Editar Aeronave" onClose={() => setModalEditarAberto(false)}>
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Modelo</label>
+                        <input type="text" placeholder="Ex: Aeronave 123" className={styleInput} />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Tipo</label>
+                        <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
+                            <option value="">Selecione...</option>
+                            <option>Comercial</option>
+                            <option>Militar</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Capacidade</label>
+                        <input type="text" placeholder="Ex: 300" className={styleInput} />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Alcance</label>
+                        <input type="text" placeholder="Ex: 1089" className={styleInput} />
+                    </div>
+                </div>
+
+                <div className="flex justify-end gap-3 pt-1">
+                    <button onClick={() => setModalEditarAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
+                    <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
+                </div>
+            </Modal>
+        )}
 
       <main className="max-w-6xl mx-auto p-6">
         
@@ -27,7 +103,7 @@ function Aeronaves() {
           </div>
           <div className="w-full md:w-1/2 text-center md:text-left">
             <h1 className="text-5xl font-bold text-slate-800 mb-4">Aeronaves</h1>
-            <p className="text-lg text-slate-600">Área dedicada à gestão e visualização das aeronaves da companhia. Selecione uma aeronave para ver os detalhes</p>
+            <p className="text-lg text-slate-600">Área dedicada à gestão e visualização das aeronaves da companhia. <span className='text-indigo-500'>Selecione uma aeronave para ver os detalhes.</span></p>
           </div>
         </section>
 
@@ -42,14 +118,14 @@ function Aeronaves() {
                 <Search size={16} />
                 <input type="text" placeholder="Buscar aeronave..." className="bg-transparent focus:outline-none w-full text-slate-700" value={busca} onChange={(e) => setBusca(e.target.value)} />
               </div>
-              <button className="cursor-pointer bg-[var(--azul)] hover:hover:bg-indigo-600 text-white font-medium py-2 px-6 rounded transition-colors w-full sm:w-auto">Criar</button>
+              <button className="cursor-pointer bg-[var(--azul-escuro)] hover:hover:bg-[var(--azul)] text-white font-medium py-2 px-6 rounded transition-colors w-full sm:w-auto" onClick={() => setModalCriarAberto(true)}>Criar</button>
             </div>
 
             <div className="flex flex-col gap-3">
               {aeronavesFiltradas.map((aeronave) => (
                 <button key={aeronave.id} onClick={() => setSelecionada(aeronave)} className={`flex items-center justify-between p-4 border rounded text-left transition-colors ${selecionada?.id === aeronave.id ? 'border-[var(--azul)] bg-indigo-50' : 'border-slate-300 hover:bg-slate-50'}`} >
-                  <span className="text-lg text-slate-700">{aeronave.nome}</span>
-                  <div className={`w-5 h-5 rounded-full border-2 ${selecionada?.id === aeronave.id ? 'border-[var(--azul)] bg-[var(--azul)]' : 'border-slate-400 bg-slate-200'}`}></div>
+                  <span className="text-lg text-slate-700">ID: {aeronave.id} - {aeronave.nome}</span>
+                  <div className={`w-5 h-5 rounded-full border-2 ${selecionada?.id === aeronave.id ? 'border-[var(--azul-escuro)] bg-[var(--azul)]' : 'border-slate-400 bg-slate-200'}`}></div>
                 </button>
               ))}
               {aeronavesFiltradas.length === 0 && (
@@ -68,8 +144,9 @@ function Aeronaves() {
                   ))}
                 </div>
                 <div className="mt-auto w-full flex flex-col gap-3">
-                  <button className="cursor-pointer w-full bg-[var(--azul)] hover:bg-indigo-600 text-white py-2 rounded transition-colors">Editar</button>
-                  <button className="cursor-pointer w-full bg-[var(--azul)] hover:bg-indigo-600 text-white py-2 rounded transition-colors">Relatório</button>
+                  <button className={classeBtn} onClick={() => setModalEditarAberto(true)}>Editar</button>
+                  <button className={classeBtn}>Gerar Relatório</button>
+                  <button className={classeBtn}>Registrar Teste</button>
                 </div>
               </div>
             ) : (

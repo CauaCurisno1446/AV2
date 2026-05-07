@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, SquarePen, Trash2, MousePointerClick} from 'lucide-react';
 import Modal from '../components/Modal';
 import aerFoto from "../assets/img/boeing.jpg"
 
@@ -14,13 +14,15 @@ function Aeronaves() {
   const [selecionada, setSelecionada] = useState(mockAeronaves[0]);
   const [modalCriar, setModalCriarAberto] = useState(false);
   const [modalEditar, setModalEditarAberto] = useState(false);
+  const [modalTeste, setModalTesteAberto] = useState(false);
 
   const aeronavesFiltradas = mockAeronaves.filter(a => 
     a.nome.toLowerCase().includes(busca.toLowerCase())
   );
 
-  const classeBtn = "cursor-pointer w-full bg-[var(--azul-escuro)] hover:hover:bg-[var(--azul)] text-white py-2 rounded transition-colors"
+
   const styleInput = "border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all"
+  
 
   return (
     <div className="min-h-screen bg-[var(--fundo)] text-slate-800 font-sans">
@@ -95,6 +97,45 @@ function Aeronaves() {
             </Modal>
         )}
 
+        {modalTeste && (
+            <Modal titulo="Registrar Testes" onClose={() => setModalTesteAberto(false)}>
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Aerodinâmico</label>
+                        <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
+                            <option value="">Selecione...</option>
+                            <option>Aprovado</option>
+                            <option>Reprovado</option>
+                        </select>
+                        
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Elétrico</label>
+                        <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
+                            <option value="">Selecione...</option>
+                            <option>Aprovado</option>
+                            <option>Reprovado</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-slate-600">Hidráulico</label>
+                        <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
+                            <option value="">Selecione...</option>
+                            <option>Aprovado</option>
+                            <option>Reprovado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div className="flex justify-end gap-3 pt-1">
+                    <button onClick={() => setModalTesteAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
+                    <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
+                </div>
+            </Modal>
+        )}
+
       <main className="max-w-6xl mx-auto p-6">
         
         <section className="flex flex-col md:flex-row items-center gap-8 mb-12">
@@ -118,43 +159,69 @@ function Aeronaves() {
                 <Search size={16} />
                 <input type="text" placeholder="Buscar aeronave..." className="bg-transparent focus:outline-none w-full text-slate-700" value={busca} onChange={(e) => setBusca(e.target.value)} />
               </div>
-              <button className="cursor-pointer bg-[var(--azul-escuro)] hover:hover:bg-[var(--azul)] text-white font-medium py-2 px-6 rounded transition-colors w-full sm:w-auto" onClick={() => setModalCriarAberto(true)}>Criar</button>
+              <button className="cursor-pointer bg-[var(--azul-escuro)] hover:hover:bg-[var(--azul)] text-white font-medium py-2 px-6 rounded-[10px] transition-colors w-full sm:w-auto" onClick={() => setModalCriarAberto(true)}>Criar</button>
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 p-2 rounded-[10px] bg-[var(--cinza)] max-h-[450px] overflow-y-auto custom-scrollbar">
               {aeronavesFiltradas.map((aeronave) => (
-                <button key={aeronave.id} onClick={() => setSelecionada(aeronave)} className={`flex items-center justify-between p-4 border rounded text-left transition-colors ${selecionada?.id === aeronave.id ? 'border-[var(--azul)] bg-indigo-50' : 'border-slate-300 hover:bg-slate-50'}`} >
+                <button key={aeronave.id} onClick={() => setSelecionada(aeronave)} className={`shrink-0 flex items-center justify-between p-4 border rounded-[15px] text-left transition-colors bg-white ${selecionada?.id === aeronave.id ? 'border-[var(--azul)] bg-indigo-50' : 'border-slate-300 hover:bg-slate-50'}`}>
                   <span className="text-lg text-slate-700">ID: {aeronave.id} - {aeronave.nome}</span>
-                  <div className={`w-5 h-5 rounded-full border-2 ${selecionada?.id === aeronave.id ? 'border-[var(--azul-escuro)] bg-[var(--azul)]' : 'border-slate-400 bg-slate-200'}`}></div>
+                  <div className={`w-5 h-5 rounded-full border-2 ${selecionada?.id === aeronave.id ? 'border-[var(--azul-escuro)] bg-[var(--azul)]' : 'border-slate-400 bg-slate-200'}`} />
                 </button>
               ))}
+              
               {aeronavesFiltradas.length === 0 && (
                 <p className="text-slate-500 text-center py-4">Nenhuma aeronave encontrada.</p>
               )}
             </div>
           </div>
 
-          <aside className="lg:col-span-1">
+          <aside className="lg:col-span-1 h-full">
             {selecionada ? (
-              <div className="border border-slate-300 p-6 flex flex-col items-center h-full">
-                <h2 className="text-xl text-slate-700 mb-6">{selecionada.nome}</h2>
-                <div className="flex flex-col gap-3 w-full text-center text-slate-600 mb-8">
+              <div className="flex flex-col h-full bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm">
+               
+                <div className="pb-5 border-b border-slate-100">
+                  <h2 className="text-2xl font-bold text-slate-800 tracking-tight leading-none">{selecionada.nome}</h2>
+                  <p className="text-sm font-medium text-slate-500 mt-2">Detalhes do registro</p>
+                </div>
+                
+                <div className="py-6 flex-1 flex flex-col gap-4">
                   {selecionada.dados.map((dado, index) => (
-                    <span key={index}>{dado}</span>
+                    <div key={index} className="flex items-start gap-3">
+                      <div className="mt-2 w-1.5 h-1.5 rounded-full bg-slate-300 shrink-0"></div>
+                      <span className="text-base text-slate-700 leading-relaxed">{dado}</span>
+                    </div>
                   ))}
                 </div>
-                <div className="mt-auto w-full flex flex-col gap-3">
-                  <button className={classeBtn} onClick={() => setModalEditarAberto(true)}>Editar</button>
-                  <button className={classeBtn}>Gerar Relatório</button>
-                  <button className={classeBtn}>Registrar Teste</button>
+
+                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">
+                  Gerar Relatório
+                </button>
+
+                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm" onClick={() => setModalTesteAberto(true)}>
+                  Registrar Testes
+                </button>
+              
+                <div className="pt-4 flex items-center gap-3 mt-auto">
+                  <button onClick={() => setModalEditarAberto(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">
+                    <SquarePen size={18} strokeWidth={2.5} />
+                    Editar
+                  </button>
+                  
+                  <button className="flex items-center justify-center w-11 h-11 text-slate-400 bg-transparent hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors cursor-pointer shrink-0">
+                    <Trash2 size={18} strokeWidth={2.5} />
+                  </button>
                 </div>
+
               </div>
             ) : (
-              <div className="border border-slate-300 p-6 flex items-center justify-center bg-slate-50 h-full text-slate-400 text-center">
-                Selecione uma aeronave para ver os detalhes
+              <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-6 bg-transparent border border-transparent">
+                <MousePointerClick className="text-slate-300 mb-4" size={32} strokeWidth={1.5} />
+                <p className="text-base font-semibold text-slate-600 mb-1">Nenhum item selecionado</p>
+                <p className="text-sm text-slate-500">Selecione uma peça na lista para visualizar os detalhes aqui.</p>
               </div>
             )}
-          </aside>
+        </aside>
 
         </section>
       </main>

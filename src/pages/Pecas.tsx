@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, SquarePen, Trash2 } from 'lucide-react';
 import Modal from '../components/Modal';
 import pecasFoto from "../assets/img/pecas.jpg"
 
@@ -21,8 +21,8 @@ function Pecas() {
     a.nome.toLowerCase().includes(busca.toLowerCase())
   );
 
-  const classeBtn = "cursor-pointer w-full bg-[var(--azul-escuro)] hover:hover:bg-[var(--azul)] text-white py-2 rounded transition-colors"
   const styleInput = "border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all"
+  const classBtnIcon = "w-full p-2 flex justify-center items-center cursor-pointer rounded-[10px] hover:bg-[var(--cinza)] duration-200"
 
   return(
     <div className="min-h-screen bg-[var(--fundo)] text-slate-800 font-sans">
@@ -155,7 +155,10 @@ function Pecas() {
                             ))}
                         </div>
                         <div className="mt-auto w-full flex flex-col gap-3">
-                            <button className={classeBtn} onClick={() => setModalEditarAberto(true)}>Editar</button>
+                            <div className='w-full grid grid-cols-2 justify-center items-center'>
+                                <button className={classBtnIcon} onClick={() => setModalEditarAberto(true)}><SquarePen /></button>
+                                <button className={classBtnIcon}><Trash2 /></button>
+                            </div>
                         </div>
                     </div>
                     ) : (

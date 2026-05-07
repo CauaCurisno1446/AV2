@@ -1,6 +1,7 @@
 "use client";
 
 import { Settings, Plane, Users } from "lucide-react";
+import LogoMarquee from "../components/LogoMarquee";
 
 function Home() {
   return (
@@ -21,8 +22,9 @@ function Home() {
             Começar
           </button>
         </div>
-
       </div>
+
+      <LogoMarquee />
 
       <div className="max-w-6xl mx-auto px-6 py-20 text-center">
         <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">

@@ -6,6 +6,7 @@ import Aeronaves from '../pages/Aeronaves'
 import Pecas from '../pages/Pecas'
 import Funcionarios from '../pages/Funcionarios'
 import Etapas from '../pages/Etapas'
+import Usuario from '../pages/Usuario'
 
 
 function AppRoutes() {
@@ -19,6 +20,7 @@ function AppRoutes() {
         <Route path='/pecas' element={<Pecas />} />
         <Route path='/etapas' element={<Etapas />} />
         <Route path='/funcionarios' element={<Funcionarios />} />
+        <Route path='/usuario' element={<Usuario />} />
       </Route>
 
     </Routes>

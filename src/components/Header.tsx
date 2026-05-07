@@ -24,9 +24,11 @@ function Header() {
       <nav className="flex items-center justify-end gap-1">
         <NavItem to="/funcionarios">Funcionários</NavItem>
 
-        <button className="ml-2 flex items-center justify-center w-9 h-9 rounded-lg border border-blue-500/25 bg-blue-500/6 text-white cursor-pointer hover:bg-blue-500/15 hover:border-blue-500/50 hover:text-white transition-all duration-250">
-          <User size={16} />
-        </button>
+        <NavItem to="/usuario">
+          <button className="ml-2 flex items-center justify-center w-9 h-9 rounded-lg border border-blue-500/25 bg-blue-500/6 text-white cursor-pointer hover:bg-blue-500/15 hover:border-blue-500/50 hover:text-white transition-all duration-250">
+            <User size={16} />
+          </button>
+        </NavItem>
       </nav>
     </header>
   )

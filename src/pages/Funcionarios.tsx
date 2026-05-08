@@ -89,7 +89,7 @@ function Funcionarios() {
                   ))}
                 </div>
                 <div className="pt-4 flex items-center gap-3 mt-auto">
-                  <button onClick={modalCriar.abrir} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm"><SquarePen size={18} strokeWidth={2.5} />Editar</button>
+                  <button onClick={modalEditar.abrir} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm"><SquarePen size={18} strokeWidth={2.5} />Editar</button>
                   <button className="flex items-center justify-center w-11 h-11 text-slate-400 bg-transparent hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors cursor-pointer shrink-0"><Trash2 size={18} strokeWidth={2.5} /></button>
                 </div>
               </div>

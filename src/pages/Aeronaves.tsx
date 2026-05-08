@@ -7,6 +7,7 @@ import InputTexto from '../components/InputTexto';
 import TituloPagina from '../components/TituloPagina';
 import PesquisaCriar from '../components/PesquisaCriar';
 import { Lista } from '../components/Lista';
+import { useModal } from '../hooks/useModal';
 
 const mockAeronaves = [
   { id: 1, nome: 'Aeronave 1', dados: ['Modelo: Boeing 737', 'Tipo: Comercial', 'Capacidade: 189', 'Alcance: 300 Km'], etapas: ['Colocar mola', 'Acoplar janelas'], pecas: ['Motor GE90', 'Trem de pouso'], testes: ['Aerodinâmico: Aprovado', 'Elétrico: Aprovado', 'Hidráulico: Reprovado'], },
@@ -17,9 +18,9 @@ const mockAeronaves = [
 function Aeronaves() {
   const [busca, setBusca] = useState('');
   const [selecionada, setSelecionada] = useState(mockAeronaves[0]);
-  const [modalCriar, setModalCriarAberto] = useState(false);
-  const [modalEditar, setModalEditarAberto] = useState(false);
-  const [modalTeste, setModalTesteAberto] = useState(false);
+  const modalCriar = useModal()
+  const modalEditar = useModal()
+  const modalTestes = useModal()
 
   const aeronavesFiltradas = mockAeronaves.filter(a => 
     a.nome.toLowerCase().includes(busca.toLowerCase())
@@ -28,8 +29,8 @@ function Aeronaves() {
   return (
     <div className="min-h-screen bg-[var(--fundo)] text-slate-800 font-sans">
 
-        {modalCriar && (
-            <Modal titulo="Nova Aeronave" onClose={() => setModalCriarAberto(false)}>
+        {modalCriar.aberto && (
+            <Modal titulo="Nova Aeronave" onClose={modalCriar.fechar}>
                 <div className="flex flex-col gap-4">
                     <InputTexto label='Modelo' placeholder='Ex: Aeronave 123' name="modelo" id='modelo'/>
                     <InputSelect label='Tipo' options={["Comercial", "Militar"]} name='tipo' id='tipo'/>
@@ -38,14 +39,14 @@ function Aeronaves() {
                 </div>
 
                 <div className="flex justify-end gap-3 pt-1">
-                    <button onClick={() => setModalCriarAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
+                    <button onClick={modalCriar.fechar} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
                     <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
                 </div>
             </Modal>
         )}
 
-        {modalEditar && (
-            <Modal titulo="Editar Aeronave" onClose={() => setModalEditarAberto(false)}>
+        {modalEditar.aberto && (
+            <Modal titulo="Editar Aeronave" onClose={modalEditar.fechar}>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-4">
                     <InputTexto label='Modelo' placeholder='Ex: Aeronave 123' name="modeloEditar" id='modeloEditar'/>
@@ -56,14 +57,14 @@ function Aeronaves() {
                 </div>
 
                 <div className="flex justify-end gap-3 pt-1">
-                    <button onClick={() => setModalEditarAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
+                    <button onClick={modalEditar.fechar} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
                     <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
                 </div>
             </Modal>
         )}
 
-        {modalTeste && (
-            <Modal titulo="Registrar Testes" onClose={() => setModalTesteAberto(false)}>
+        {modalTestes.aberto && (
+            <Modal titulo="Registrar Testes" onClose={modalTestes.fechar}>
                 <div className="flex flex-col gap-4">
                     <InputSelect label='Aerodinâmico' options={["Aprovado", "Reprovado"]} name='TesteAer' id='TesteAer' />
                     <InputSelect label='Hidráulico' options={["Aprovado", "Reprovado"]} name='TesteHid' id='TesteHid' />
@@ -71,7 +72,7 @@ function Aeronaves() {
                 </div>
 
                 <div className="flex justify-end gap-3 pt-1">
-                    <button onClick={() => setModalTesteAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
+                    <button onClick={modalTestes.fechar} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
                     <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
                 </div>
             </Modal>
@@ -85,7 +86,7 @@ function Aeronaves() {
           
           <div className="lg:col-span-2 flex flex-col gap-6">
             
-            <PesquisaCriar placeholder='Buscar Aeronave...' busca={busca} setBusca={setBusca} onCriar={() => setModalCriarAberto(true)} />
+            <PesquisaCriar placeholder='Buscar Aeronave...' busca={busca} setBusca={setBusca} onCriar={modalCriar.abrir} />
 
             <Lista itens={aeronavesFiltradas} itemSelecionado={selecionada} onSelecionar={setSelecionada} extrairId={(aeronave) => aeronave.id} extrairTexto={(aeronave) => aeronave.nome} mensagemVazia="Nenhuma aeronave encontrada." />
           </div>
@@ -156,12 +157,12 @@ function Aeronaves() {
                   Gerar Relatório
                 </button>
 
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm" onClick={() => setModalTesteAberto(true)}>
+                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm" onClick={modalTestes.abrir}>
                   Registrar Testes
                 </button>
 
                 <div className="pt-4 flex items-center gap-3 mt-auto">
-                  <button onClick={() => setModalEditarAberto(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">
+                  <button onClick={modalEditar.abrir} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">
                     <SquarePen size={18} strokeWidth={2.5} />
                     Editar
                   </button>

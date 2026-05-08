@@ -4,6 +4,7 @@ import Modal from '../components/Modal';
 import { NavLink } from 'react-router-dom';
 import InputSenha from '../components/InputSenha';
 import InputTexto from '../components/InputTexto';
+import { useModal } from '../hooks/useModal';
 
 
 const mockUsuario = {
@@ -19,16 +20,20 @@ const mockUsuario = {
 };
 
 function Usuario() {
-  const [modalAberto, setModalAberto] = useState(false);
-  const [modalSenha, setModalSenhaAberto] = useState(false);
+  // const [modalAberto, setModalAberto] = useState(false);
+  // const [modalSenha, setModalSenhaAberto] = useState(false);
+  // const [modalSair, setModalSairAberto] = useState(false);
   const [dados] = useState(mockUsuario);
+  const modalEditar = useModal()
+  const modalSenha = useModal()
+  const modalSair = useModal()
 
 
   return (
     <div className="min-h-screen bg-[var(--fundo)] text-slate-800 font-sans">
 
-      {modalAberto && (
-        <Modal titulo="Editar Perfil" onClose={() => setModalAberto(false)}>
+      {modalEditar.aberto && (
+        <Modal titulo="Editar Perfil" onClose={modalEditar.fechar}>
           <div className="flex flex-col gap-4">
             <InputTexto label='Nome' placeholder='Ex: Kauan' name='nomeEditar' id='nomeEditar'/>
             <InputTexto label='E-mail' placeholder='Ex: caua@email.com' name='emailEditar' id='emailEditar'/>
@@ -36,22 +41,36 @@ function Usuario() {
             <InputTexto label='Telefone' placeholder='Ex: (12) 1212121212' name='telEditar' id='telEditar'/>
           </div>
           <div className="flex justify-end gap-3 pt-6">
-            <button onClick={() => setModalAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
-            <button onClick={() => setModalAberto(false)} className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
+            <button onClick={modalEditar.fechar} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
+            <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
           </div>
         </Modal>
       )}
 
-      {modalSenha && (
-        <Modal titulo="Alterar Senha" onClose={() => setModalSenhaAberto(false)}>
+      {modalSenha.aberto && (
+        <Modal titulo="Alterar Senha" onClose={modalSenha.fechar}>
           <div className="flex flex-col gap-4">
             <InputSenha label='Senha Atual:' />
             <InputSenha label='Nova Senha:' />
             <InputSenha label='Repita a Nova Senha:' />
           </div>
           <div className="flex justify-end gap-3 pt-6">
-            <button onClick={() => setModalSenhaAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
-            <button onClick={() => setModalSenhaAberto(false)} className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
+            <button onClick={modalSenha.fechar} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
+            <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
+          </div>
+        </Modal>
+      )}
+
+      {modalSair.aberto && (
+        <Modal titulo="Deseja sair?" onClose={modalSair.fechar}>
+          <div className="flex flex-col gap-4">
+            <NavLink to="/home">
+              <button className="px-4 py-2 w-full text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
+            </NavLink>
+            
+            <NavLink to="/">
+              <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] w-full hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Sair</button>
+            </NavLink>
           </div>
         </Modal>
       )}
@@ -67,7 +86,7 @@ function Usuario() {
             <p className="text-lg text-slate-600 mb-6">
               {dados.cargo} na <span className="text-[var(--azul)] font-semibold">{dados.companhia}</span> • {dados.usuario}
             </p>
-            <button onClick={() => setModalAberto(true)} className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[var(--azul-escuro)] text-white hover:bg-[var(--azul)] active:scale-95 transition-all cursor-pointer">
+            <button onClick={modalEditar.abrir} className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[var(--azul-escuro)] text-white hover:bg-[var(--azul)] active:scale-95 transition-all cursor-pointer">
               <SquarePen size={18} />
               Editar Informações
             </button>
@@ -116,7 +135,7 @@ function Usuario() {
             </div>
 
             <div className="flex gap-3 items-start">
-                <button onClick={() => setModalSenhaAberto(true)} className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-white text-[var(--azul-escuro)] hover:bg-[var(--azul-escuro)] hover:text-white border active:scale-95 transition-all cursor-pointer">
+                <button onClick={modalSenha.abrir} className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-white text-[var(--azul-escuro)] hover:bg-[var(--azul-escuro)] hover:text-white border active:scale-95 transition-all cursor-pointer">
                   <RectangleEllipsis size={18} />
                   Alterar Senha
                 </button>
@@ -139,12 +158,10 @@ function Usuario() {
 
         <br />
 
-        <NavLink to="/">
-          <button className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[var(--azul-escuro)] text-white hover:bg-[var(--azul)] active:scale-95 transition-all cursor-pointer">
+          <button className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[var(--azul-escuro)] text-white hover:bg-[var(--azul)] active:scale-95 transition-all cursor-pointer" onClick={modalSair.abrir}>
               <LogOut size={18} />
               Sair
           </button>
-        </NavLink>
       </main>
     </div>
   );

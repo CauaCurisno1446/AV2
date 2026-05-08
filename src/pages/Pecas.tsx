@@ -43,7 +43,7 @@ function Pecas() {
 
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium text-slate-600">Fornecedor</label>
-              <input type="text" placeholder="Embraer" className={styleInput} />
+              <input type="text" placeholder="Ex: Embraer" className={styleInput} />
             </div>
 
             <div className="flex flex-col gap-1">
@@ -56,6 +56,22 @@ function Pecas() {
               </select>
             </div>
           </div>
+
+          <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-slate-600">Associar a Aeronave</label>
+                  <div className="flex flex-col gap-2 max-h-36 overflow-y-auto pr-1 custom-scrollbar border border-slate-200 rounded-lg p-3 bg-slate-50">
+                    {[
+                      { id: 'aer1', label: 'Aeronave 1' },
+                      { id: 'aer2', label: 'Aeronave 2' },
+                      { id: 'aer3', label: 'Aeronave 3' },
+                    ].map(({ id, label }) => (
+                      <label key={id} htmlFor={id} className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors cursor-pointer select-none`}>
+                        <input type="checkbox" id={id} className="w-4 h-4 rounded accent-[var(--azul-escuro)] cursor-pointer" />
+                        <span className="text-sm text-slate-700">{label}</span>
+                      </label>
+                    ))}
+                  </div>
+            </div>
 
           <div className="flex justify-end gap-3 pt-1">
             <button onClick={() => setModalCriarAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
@@ -83,7 +99,7 @@ function Pecas() {
 
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium text-slate-600">Fornecedor</label>
-              <input type="text" placeholder="Embraer" className={styleInput} />
+              <input type="text" placeholder="Ex: Embraer" className={styleInput} />
             </div>
 
             <div className="flex flex-col gap-1">
@@ -96,6 +112,22 @@ function Pecas() {
               </select>
             </div>
           </div>
+
+          <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-slate-600">Associar a Aeronave</label>
+                  <div className="flex flex-col gap-2 max-h-36 overflow-y-auto pr-1 custom-scrollbar border border-slate-200 rounded-lg p-3 bg-slate-50">
+                    {[
+                      { id: 'aer1', label: 'Aeronave 1' },
+                      { id: 'aer2', label: 'Aeronave 2' },
+                      { id: 'aer3', label: 'Aeronave 3' },
+                    ].map(({ id, label }) => (
+                      <label key={id} htmlFor={id} className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors cursor-pointer select-none`}>
+                        <input type="checkbox" id={id} className="w-4 h-4 rounded accent-[var(--azul-escuro)] cursor-pointer" />
+                        <span className="text-sm text-slate-700">{label}</span>
+                      </label>
+                    ))}
+                  </div>
+            </div>
 
           <div className="flex justify-end gap-3 pt-1">
             <button onClick={() => setModalEditarAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>

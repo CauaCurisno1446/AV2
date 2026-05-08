@@ -4,9 +4,9 @@ import Modal from '../components/Modal';
 import aerFoto from "../assets/img/boeing.jpg"
 
 const mockAeronaves = [
-  { id: 1, nome: 'Aeronave 1', dados: ['Modelo: Boeing 737', 'Tipo: Comercial', 'Capacidade: 189', 'Alcance: 300 Km'] },
-  { id: 2, nome: 'Aeronave 2', dados: ['Modelo: Airbus A320', 'Tipo: Militar', 'Capacidade: 400', 'Alcance: 400 Km'] },
-  { id: 3, nome: 'Aeronave 3', dados: ['Modelo: Embraer E195', 'Tipo: Comercial', 'Capacidade: 202', 'Alcance: 500 Km'] },
+  { id: 1, nome: 'Aeronave 1', dados: ['Modelo: Boeing 737', 'Tipo: Comercial', 'Capacidade: 189', 'Alcance: 300 Km'], etapas: ['Colocar mola', 'Acoplar janelas'], pecas: ['Motor GE90', 'Trem de pouso'], testes: ['Aerodinâmico: Aprovado', 'Elétrico: Aprovado', 'Hidráulico: Reprovado'], },
+  { id: 2, nome: 'Aeronave 2', dados: ['Modelo: Airbus A320', 'Tipo: Militar', 'Capacidade: 400', 'Alcance: 400 Km'], etapas: ['Apresentar aeronave'], pecas: ['Motor CFM56', 'APU GTCP331'], testes: ['Aerodinâmico: Aprovado'], },
+  { id: 3, nome: 'Aeronave 3', dados: ['Modelo: Embraer E195', 'Tipo: Comercial', 'Capacidade: 202', 'Alcance: 500 Km'], etapas: [], pecas: ['Motor CF34'], testes: [], },
 ];
 
 function Aeronaves() {
@@ -179,12 +179,12 @@ function Aeronaves() {
           <aside className="lg:col-span-1 h-full">
             {selecionada ? (
               <div className="flex flex-col h-full bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm">
-               
+
                 <div className="pb-5 border-b border-slate-100">
                   <h2 className="text-2xl font-bold text-slate-800 tracking-tight leading-none">{selecionada.nome}</h2>
                   <p className="text-sm font-medium text-slate-500 mt-2">Detalhes do registro</p>
                 </div>
-                
+
                 <div className="py-6 flex-1 flex flex-col gap-4">
                   {selecionada.dados.map((dado, index) => (
                     <div key={index} className="flex items-start gap-3">
@@ -194,20 +194,64 @@ function Aeronaves() {
                   ))}
                 </div>
 
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">
+                <div className="flex flex-col gap-4 pb-6 border-b border-slate-100">
+                  <div className="flex flex-col gap-2">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Etapas</p>
+                    <div className="flex flex-col gap-1.5 max-h-32 overflow-y-auto custom-scrollbar bg-slate-50 border border-slate-200 rounded-lg p-2.5">
+                      {selecionada.etapas.length > 0 ? selecionada.etapas.map((etapa, index) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-300 shrink-0"></div>
+                          <span className="text-xs text-slate-700 leading-relaxed">{etapa}</span>
+                        </div>
+                      )) : (
+                        <span className="text-xs text-slate-400 italic">Nenhuma etapa.</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Peças</p>
+                    <div className="flex flex-col gap-1.5 max-h-32 overflow-y-auto custom-scrollbar bg-slate-50 border border-slate-200 rounded-lg p-2.5">
+                      {selecionada.pecas.length > 0 ? selecionada.pecas.map((peca, index) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-300 shrink-0"></div>
+                          <span className="text-xs text-slate-700 leading-relaxed">{peca}</span>
+                        </div>
+                      )) : (
+                        <span className="text-xs text-slate-400 italic">Nenhuma peça.</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Testes</p>
+                    <div className="flex flex-col gap-1.5 max-h-32 overflow-y-auto custom-scrollbar bg-slate-50 border border-slate-200 rounded-lg p-2.5">
+                      {selecionada.testes.length > 0 ? selecionada.testes.map((teste, index) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <div className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${teste.includes('Reprovado') ? 'bg-red-400' : 'bg-emerald-400'}`}></div>
+                          <span className="text-xs text-slate-700 leading-relaxed">{teste}</span>
+                        </div>
+                      )) : (
+                        <span className="text-xs text-slate-400 italic">Nenhum teste.</span>
+                      )}
+                    </div>
+                  </div>
+              </div>
+
+                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 mt-6 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">
                   Gerar Relatório
                 </button>
 
                 <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm" onClick={() => setModalTesteAberto(true)}>
                   Registrar Testes
                 </button>
-              
+
                 <div className="pt-4 flex items-center gap-3 mt-auto">
                   <button onClick={() => setModalEditarAberto(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">
                     <SquarePen size={18} strokeWidth={2.5} />
                     Editar
                   </button>
-                  
+
                   <button className="flex items-center justify-center w-11 h-11 text-slate-400 bg-transparent hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors cursor-pointer shrink-0">
                     <Trash2 size={18} strokeWidth={2.5} />
                   </button>

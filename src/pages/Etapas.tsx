@@ -4,9 +4,9 @@ import etpFoto from "../assets/img/etapas.jpg"
 import Modal from '../components/Modal';
 
 const mockEtapas = [
-  { id: 1, nome: 'Colocar mola', dados: ['Prazo: 12/05/2026', 'Status: Concluída', 'Funcionários: Cauã | Davi'] },
-  { id: 2, nome: 'Acoplar janelas', dados: ['Prazo: 28/11/2026', 'Status: Em Andamento', 'Funcionários: Davi'] },
-  { id: 3, nome: 'Apresentar aeronave', dados: ['Prazo: 12/07/2027', 'Status: Cancelada', 'Funcionários: Davi | João'] },
+  { id: 1, nome: 'Colocar mola', dados: ['Prazo: 12/05/2026', 'Status: Concluída', 'Funcionários: Cauã | Davi', 'Aeronave: Aeronave 1']},
+  { id: 2, nome: 'Acoplar janelas', dados: ['Prazo: 28/11/2026', 'Status: Em Andamento', 'Funcionários: Davi', 'Aeronave: Aeronave 2'] },
+  { id: 3, nome: 'Apresentar aeronave', dados: ['Prazo: 12/07/2027', 'Status: Cancelada', 'Funcionários: Davi | João', 'Aeronave: Aeronave 3'] },
 ];
 
 function Etapas() {
@@ -48,12 +48,28 @@ function Etapas() {
 
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium text-slate-600">Funcionários</label>
-              {/* <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
+                  <div className="flex flex-col gap-2 max-h-36 overflow-y-auto pr-1 custom-scrollbar border border-slate-200 rounded-lg p-3 bg-slate-50">
+                    {[
+                      { id: 'func1', label: 'Cauã' },
+                      { id: 'func2', label: 'Davi' },
+                      { id: 'func3', label: 'João' },
+                    ].map(({ id, label }) => (
+                      <label key={id} htmlFor={id} className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors cursor-pointer select-none`}>
+                        <input type="checkbox" id={id} className="w-4 h-4 rounded accent-[var(--azul-escuro)] cursor-pointer" />
+                        <span className="text-sm text-slate-700">{label}</span>
+                      </label>
+                    ))}
+                  </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-slate-600">Aeronave</label>
+              <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
                 <option value="">Selecione...</option>
-                <option>Pronta</option>
-                <option>Em Trânsito</option>
-                <option>Cancelada</option>
-              </select> */}
+                <option>Aeronave 1</option>
+                <option>Aeronave 2</option>
+                <option>Aeronave 3</option>
+              </select>
             </div>
           </div>
 
@@ -88,12 +104,28 @@ function Etapas() {
 
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium text-slate-600">Funcionários</label>
-              {/* <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
+                  <div className="flex flex-col gap-2 max-h-36 overflow-y-auto pr-1 custom-scrollbar border border-slate-200 rounded-lg p-3 bg-slate-50">
+                    {[
+                      { id: 'func1', label: 'Cauã' },
+                      { id: 'func2', label: 'Davi' },
+                      { id: 'func3', label: 'João' },
+                    ].map(({ id, label }) => (
+                      <label key={id} htmlFor={id} className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors cursor-pointer select-none`}>
+                        <input type="checkbox" id={id} className="w-4 h-4 rounded accent-[var(--azul-escuro)] cursor-pointer" />
+                        <span className="text-sm text-slate-700">{label}</span>
+                      </label>
+                    ))}
+                  </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-slate-600">Aeronave</label>
+              <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
                 <option value="">Selecione...</option>
-                <option>Pronta</option>
-                <option>Em Trânsito</option>
-                <option>Cancelada</option>
-              </select> */}
+                <option>Aeronave 1</option>
+                <option>Aeronave 2</option>
+                <option>Aeronave 3</option>
+              </select>
             </div>
           </div>
 

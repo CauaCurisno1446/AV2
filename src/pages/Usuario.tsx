@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { SquarePen, Shield, Mail, Phone, MapPin, Calendar, LogOut } from 'lucide-react';
+import { SquarePen, Shield, Mail, Phone, MapPin, Calendar, LogOut, RectangleEllipsis } from 'lucide-react';
 import Modal from '../components/Modal';
 import { NavLink } from 'react-router-dom';
+import InputSenha from '../components/InputSenha';
+
 
 const mockUsuario = {
   nome: "Cauã Cursino",
@@ -17,6 +19,7 @@ const mockUsuario = {
 
 function Usuario() {
   const [modalAberto, setModalAberto] = useState(false);
+  const [modalSenha, setModalSenhaAberto] = useState(false);
   const [dados, setDados] = useState(mockUsuario);
 
   const styleInput = "border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all";
@@ -43,6 +46,20 @@ function Usuario() {
           <div className="flex justify-end gap-3 pt-6">
             <button onClick={() => setModalAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
             <button onClick={() => setModalAberto(false)} className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
+          </div>
+        </Modal>
+      )}
+
+      {modalSenha && (
+        <Modal titulo="Alterar Senha" onClose={() => setModalSenhaAberto(false)}>
+          <div className="flex flex-col gap-4">
+            <InputSenha label='Senha Atual:' />
+            <InputSenha label='Nova Senha:' />
+            <InputSenha label='Repita a Nova Senha:' />
+          </div>
+          <div className="flex justify-end gap-3 pt-6">
+            <button onClick={() => setModalSenhaAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
+            <button onClick={() => setModalSenhaAberto(false)} className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
           </div>
         </Modal>
       )}
@@ -105,6 +122,14 @@ function Usuario() {
                 </div>
               </div>
             </div>
+
+            <div className="flex gap-3 items-start">
+                <button onClick={() => setModalSenhaAberto(true)} className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-white text-[var(--azul-escuro)] hover:bg-[var(--azul-escuro)] hover:text-white border active:scale-95 transition-all cursor-pointer">
+                  <RectangleEllipsis size={18} />
+                  Alterar Senha
+                </button>
+            </div>
+
           </div>
 
           <aside className="lg:col-span-1 border border-slate-300 rounded-xl p-8 bg-white flex flex-col items-center justify-center text-center shadow-sm h-full">

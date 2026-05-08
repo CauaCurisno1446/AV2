@@ -1,13 +1,21 @@
 import { useState } from 'react';
-import { Search, SquarePen, Trash2, MousePointerClick } from 'lucide-react';
+import { SquarePen, Trash2, MousePointerClick } from 'lucide-react';
 import etpFoto from "../assets/img/etapas.jpg"
 import Modal from '../components/Modal';
+import InputTexto from '../components/InputTexto';
+import InputSelect from '../components/InputSelect';
+import InputCheckBox from '../components/InputCheckBox';
+import TituloPagina from '../components/TituloPagina';
+import PesquisaCriar from '../components/PesquisaCriar';
+import { Lista } from '../components/Lista';
 
 const mockEtapas = [
-  { id: 1, nome: 'Colocar mola', dados: ['Prazo: 12/05/2026', 'Status: Concluída', 'Funcionários: Cauã | Davi', 'Aeronave: Aeronave 1']},
+  { id: 1, nome: 'Colocar mola', dados: ['Prazo: 12/05/2026', 'Status: Concluída', 'Funcionários: Cauã | Davi', 'Aeronave: Aeronave 1'] },
   { id: 2, nome: 'Acoplar janelas', dados: ['Prazo: 28/11/2026', 'Status: Em Andamento', 'Funcionários: Davi', 'Aeronave: Aeronave 2'] },
   { id: 3, nome: 'Apresentar aeronave', dados: ['Prazo: 12/07/2027', 'Status: Cancelada', 'Funcionários: Davi | João', 'Aeronave: Aeronave 3'] },
 ];
+
+const funcionarios = [{ id: 'func1', label: 'Cauã' }, { id: 'func2', label: 'Davi' }, { id: 'func3', label: 'João' }];
 
 function Etapas() {
   const [busca, setBusca] = useState('');
@@ -15,11 +23,7 @@ function Etapas() {
   const [modalCriar, setModalCriarAberto] = useState(false);
   const [modalEditar, setModalEditarAberto] = useState(false);
 
-  const etapasFiltradas = mockEtapas.filter(a =>
-    a.nome.toLowerCase().includes(busca.toLowerCase())
-  );
-
-  const styleInput = "border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all"
+  const etapasFiltradas = mockEtapas.filter(a => a.nome.toLowerCase().includes(busca.toLowerCase()));
 
   return (
     <div className="min-h-screen bg-[var(--fundo)] text-slate-800 font-sans">
@@ -27,52 +31,12 @@ function Etapas() {
       {modalCriar && (
         <Modal titulo="Nova Etapa" onClose={() => setModalCriarAberto(false)}>
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Nome</label>
-              <input type="text" placeholder="Ex: Etapa X" className={styleInput} />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Prazo</label>
-              <input type="text" placeholder="Ex: 08/05/2026" className={styleInput} />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Status</label>
-              <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                <option value="">Selecione...</option>
-                <option>Concluída</option>
-                <option>Cancelada</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Funcionários</label>
-                  <div className="flex flex-col gap-2 max-h-36 overflow-y-auto pr-1 custom-scrollbar border border-slate-200 rounded-lg p-3 bg-slate-50">
-                    {[
-                      { id: 'func1', label: 'Cauã' },
-                      { id: 'func2', label: 'Davi' },
-                      { id: 'func3', label: 'João' },
-                    ].map(({ id, label }) => (
-                      <label key={id} htmlFor={id} className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors cursor-pointer select-none`}>
-                        <input type="checkbox" id={id} className="w-4 h-4 rounded accent-[var(--azul-escuro)] cursor-pointer" />
-                        <span className="text-sm text-slate-700">{label}</span>
-                      </label>
-                    ))}
-                  </div>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Aeronave</label>
-              <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                <option value="">Selecione...</option>
-                <option>Aeronave 1</option>
-                <option>Aeronave 2</option>
-                <option>Aeronave 3</option>
-              </select>
-            </div>
+            <InputTexto label="Nome" placeholder="Ex: Etapa X" name="nome" id="nome" />
+            <InputTexto label="Prazo" placeholder="Ex: 08/05/2026" name="prazo" id="prazo" />
+            <InputSelect label="Status" options={['Concluída', 'Cancelada']} name="status" id="status" />
+            <InputCheckBox label="Funcionários" options={funcionarios} />
+            <InputSelect label="Aeronave" options={['Aeronave 1', 'Aeronave 2', 'Aeronave 3']} name="aeronave" id="aeronave" />
           </div>
-
           <div className="flex justify-end gap-3 pt-1">
             <button onClick={() => setModalCriarAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
             <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
@@ -83,52 +47,12 @@ function Etapas() {
       {modalEditar && (
         <Modal titulo="Editar Etapa" onClose={() => setModalEditarAberto(false)}>
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Nome</label>
-              <input type="text" placeholder="Ex: Etapa X" className={styleInput} />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Prazo</label>
-              <input type="text" placeholder="Ex: 08/05/2026" className={styleInput} />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Status</label>
-              <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                <option value="">Selecione...</option>
-                <option>Concluída</option>
-                <option>Cancelada</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Funcionários</label>
-                  <div className="flex flex-col gap-2 max-h-36 overflow-y-auto pr-1 custom-scrollbar border border-slate-200 rounded-lg p-3 bg-slate-50">
-                    {[
-                      { id: 'func1', label: 'Cauã' },
-                      { id: 'func2', label: 'Davi' },
-                      { id: 'func3', label: 'João' },
-                    ].map(({ id, label }) => (
-                      <label key={id} htmlFor={id} className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors cursor-pointer select-none`}>
-                        <input type="checkbox" id={id} className="w-4 h-4 rounded accent-[var(--azul-escuro)] cursor-pointer" />
-                        <span className="text-sm text-slate-700">{label}</span>
-                      </label>
-                    ))}
-                  </div>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Aeronave</label>
-              <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                <option value="">Selecione...</option>
-                <option>Aeronave 1</option>
-                <option>Aeronave 2</option>
-                <option>Aeronave 3</option>
-              </select>
-            </div>
+            <InputTexto label="Nome" placeholder="Ex: Etapa X" name="nomeEditar" id="nomeEditar" />
+            <InputTexto label="Prazo" placeholder="Ex: 08/05/2026" name="prazoEditar" id="prazoEditar" />
+            <InputSelect label="Status" options={['Concluída', 'Cancelada']} name="statusEditar" id="statusEditar" />
+            <InputCheckBox label="Funcionários" options={funcionarios} />
+            <InputSelect label="Aeronave" options={['Aeronave 1', 'Aeronave 2', 'Aeronave 3']} name="aeronaveEditar" id="aeronaveEditar" />
           </div>
-
           <div className="flex justify-end gap-3 pt-1">
             <button onClick={() => setModalEditarAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
             <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
@@ -138,53 +62,22 @@ function Etapas() {
 
       <main className="max-w-6xl mx-auto p-6">
 
-        <section className="flex flex-col md:flex-row items-center gap-8 mb-12">
-          <div className="w-full md:w-1/2 aspect-video bg-slate-200 flex items-center justify-center rounded-md">
-            <img src={etpFoto} alt="Etapas" className='rounded-md' />
-          </div>
-          <div className="w-full md:w-1/2 text-center md:text-left">
-            <h1 className="text-5xl font-bold text-slate-800 mb-4">Etapas</h1>
-            <p className="text-lg text-slate-600">Área dedicada à gestão e visualização das etapas de produção da companhia. <span className='text-indigo-500'>Selecione uma etapa para ver os detalhes.</span></p>
-          </div>
-        </section>
-
-        <hr className="border-t-2 border-slate-200 mb-8" />
+        <TituloPagina titulo="Etapas" paragrafo="Área dedicada à gestão e visualização das etapas de produção da companhia." instrucoes="Selecione uma etapa para ver os detalhes." imagem={etpFoto} />
 
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           <div className="lg:col-span-2 flex flex-col gap-6">
-
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-end border-b border-slate-400 w-full sm:w-1/2 gap-2 pb-1">
-                <Search size={16} />
-                <input type="text" placeholder="Buscar etapa..." className="bg-transparent focus:outline-none w-full text-slate-700" value={busca} onChange={(e) => setBusca(e.target.value)} />
-              </div>
-              <button className="cursor-pointer bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white font-medium py-2 px-6 rounded-[10px] transition-colors w-full sm:w-auto" onClick={() => setModalCriarAberto(true)}>Criar</button>
-            </div>
-
-            <div className="flex flex-col gap-3 p-2 rounded-[10px] bg-[var(--cinza)] max-h-[450px] overflow-y-auto custom-scrollbar">
-              {etapasFiltradas.map((etapa) => (
-                <button key={etapa.id} onClick={() => setSelecionada(etapa)} className={`shrink-0 flex items-center justify-between p-4 border rounded-[15px] text-left transition-colors bg-white ${selecionada?.id === etapa.id ? 'border-[var(--azul)] bg-indigo-50' : 'border-slate-300 hover:bg-slate-50'}`}>
-                  <span className="text-lg text-slate-700">{etapa.nome}</span>
-                  <div className={`w-5 h-5 rounded-full border-2 ${selecionada?.id === etapa.id ? 'border-[var(--azul-escuro)] bg-[var(--azul)]' : 'border-slate-400 bg-slate-200'}`} />
-                </button>
-              ))}
-
-              {etapasFiltradas.length === 0 && (
-                <p className="text-slate-500 text-center py-4">Nenhuma etapa encontrada.</p>
-              )}
-            </div>
+            <PesquisaCriar placeholder="Buscar etapa..." busca={busca} setBusca={setBusca} onCriar={() => setModalCriarAberto(true)} />
+            <Lista itens={etapasFiltradas} itemSelecionado={selecionada} onSelecionar={setSelecionada} extrairId={(etapa) => etapa.id} extrairTexto={(etapa) => etapa.nome} mensagemVazia="Nenhuma etapa encontrada." />
           </div>
 
           <aside className="lg:col-span-1 h-full">
             {selecionada ? (
               <div className="flex flex-col h-full bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm">
-
                 <div className="pb-5 border-b border-slate-100">
                   <h2 className="text-2xl font-bold text-slate-800 tracking-tight leading-none">{selecionada.nome}</h2>
                   <p className="text-sm font-medium text-slate-500 mt-2">Detalhes do registro</p>
                 </div>
-
                 <div className="py-6 flex-1 flex flex-col gap-4">
                   {selecionada.dados.map((dado, index) => (
                     <div key={index} className="flex items-start gap-3">
@@ -193,22 +86,11 @@ function Etapas() {
                     </div>
                   ))}
                 </div>
-
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">
-                  Finalizar Etapa
-                </button>
-
+                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">Finalizar Etapa</button>
                 <div className="pt-4 flex items-center gap-3 mt-auto">
-                  <button onClick={() => setModalEditarAberto(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">
-                    <SquarePen size={18} strokeWidth={2.5} />
-                    Editar
-                  </button>
-
-                  <button className="flex items-center justify-center w-11 h-11 text-slate-400 bg-transparent hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors cursor-pointer shrink-0">
-                    <Trash2 size={18} strokeWidth={2.5} />
-                  </button>
+                  <button onClick={() => setModalEditarAberto(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm"><SquarePen size={18} strokeWidth={2.5} />Editar</button>
+                  <button className="flex items-center justify-center w-11 h-11 text-slate-400 bg-transparent hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors cursor-pointer shrink-0"><Trash2 size={18} strokeWidth={2.5} /></button>
                 </div>
-
               </div>
             ) : (
               <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-6 bg-transparent border border-transparent">

@@ -1,7 +1,13 @@
 import { useState } from 'react';
-import { Search, SquarePen, Trash2, MousePointerClick } from 'lucide-react';
+import { SquarePen, Trash2, MousePointerClick } from 'lucide-react';
 import Modal from '../components/Modal';
 import pecasFoto from "../assets/img/pecas.jpg"
+import InputTexto from '../components/InputTexto';
+import InputSelect from '../components/InputSelect';
+import InputCheckBox from '../components/InputCheckBox';
+import TituloPagina from '../components/TituloPagina';
+import PesquisaCriar from '../components/PesquisaCriar';
+import { Lista } from '../components/Lista';
 
 const mockPecas = [
   { id: 1, nome: 'Peça 1', dados: ['Tipo: Importada', 'Fornecedor: Embraer', 'Status: Pronta'] },
@@ -9,17 +15,15 @@ const mockPecas = [
   { id: 3, nome: 'Peça 3', dados: ['Tipo: Nacional', 'Fornecedor: Boeing', 'Status: Cancelada'] },
 ];
 
+const aeronaves = [{ id: 'aer1', label: 'Aeronave 1' }, { id: 'aer2', label: 'Aeronave 2' }, { id: 'aer3', label: 'Aeronave 3' }];
+
 function Pecas() {
   const [busca, setBusca] = useState('');
   const [selecionada, setSelecionada] = useState(mockPecas[0]);
   const [modalCriar, setModalCriarAberto] = useState(false);
   const [modalEditar, setModalEditarAberto] = useState(false);
 
-  const pecasFiltradas = mockPecas.filter(a =>
-    a.nome.toLowerCase().includes(busca.toLowerCase())
-  );
-
-  const styleInput = "border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all"
+  const pecasFiltradas = mockPecas.filter(a => a.nome.toLowerCase().includes(busca.toLowerCase()));
 
   return (
     <div className="min-h-screen bg-[var(--fundo)] text-slate-800 font-sans">
@@ -27,52 +31,12 @@ function Pecas() {
       {modalCriar && (
         <Modal titulo="Nova Peça" onClose={() => setModalCriarAberto(false)}>
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Nome</label>
-              <input type="text" placeholder="Ex: Peça 321" className={styleInput} />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Tipo</label>
-              <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                <option value="">Selecione...</option>
-                <option>Importada</option>
-                <option>Nacional</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Fornecedor</label>
-              <input type="text" placeholder="Ex: Embraer" className={styleInput} />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Status</label>
-              <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                <option value="">Selecione...</option>
-                <option>Pronta</option>
-                <option>Em Trânsito</option>
-                <option>Cancelada</option>
-              </select>
-            </div>
+            <InputTexto label="Nome" placeholder="Ex: Peça 321" name="nome" id="nome" />
+            <InputSelect label="Tipo" options={['Importada', 'Nacional']} name="tipo" id="tipo" />
+            <InputTexto label="Fornecedor" placeholder="Ex: Embraer" name="fornecedor" id="fornecedor" />
+            <InputSelect label="Status" options={['Pronta', 'Em Trânsito', 'Cancelada']} name="status" id="status" />
+            <InputCheckBox label="Associar a Aeronave" options={aeronaves} />
           </div>
-
-          <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Associar a Aeronave</label>
-                  <div className="flex flex-col gap-2 max-h-36 overflow-y-auto pr-1 custom-scrollbar border border-slate-200 rounded-lg p-3 bg-slate-50">
-                    {[
-                      { id: 'aer1', label: 'Aeronave 1' },
-                      { id: 'aer2', label: 'Aeronave 2' },
-                      { id: 'aer3', label: 'Aeronave 3' },
-                    ].map(({ id, label }) => (
-                      <label key={id} htmlFor={id} className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors cursor-pointer select-none`}>
-                        <input type="checkbox" id={id} className="w-4 h-4 rounded accent-[var(--azul-escuro)] cursor-pointer" />
-                        <span className="text-sm text-slate-700">{label}</span>
-                      </label>
-                    ))}
-                  </div>
-            </div>
-
           <div className="flex justify-end gap-3 pt-1">
             <button onClick={() => setModalCriarAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
             <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
@@ -83,52 +47,12 @@ function Pecas() {
       {modalEditar && (
         <Modal titulo="Editar Peça" onClose={() => setModalEditarAberto(false)}>
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Nome</label>
-              <input type="text" placeholder="Ex: Peça 321" className={styleInput} />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Tipo</label>
-              <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                <option value="">Selecione...</option>
-                <option>Importada</option>
-                <option>Nacional</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Fornecedor</label>
-              <input type="text" placeholder="Ex: Embraer" className={styleInput} />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Status</label>
-              <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                <option value="">Selecione...</option>
-                <option>Pronta</option>
-                <option>Em Trânsito</option>
-                <option>Cancelada</option>
-              </select>
-            </div>
+            <InputTexto label="Nome" placeholder="Ex: Peça 321" name="nomeEditar" id="nomeEditar" />
+            <InputSelect label="Tipo" options={['Importada', 'Nacional']} name="tipoEditar" id="tipoEditar" />
+            <InputTexto label="Fornecedor" placeholder="Ex: Embraer" name="fornecedorEditar" id="fornecedorEditar" />
+            <InputSelect label="Status" options={['Pronta', 'Em Trânsito', 'Cancelada']} name="statusEditar" id="statusEditar" />
+            <InputCheckBox label="Associar a Aeronave" options={aeronaves} />
           </div>
-
-          <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Associar a Aeronave</label>
-                  <div className="flex flex-col gap-2 max-h-36 overflow-y-auto pr-1 custom-scrollbar border border-slate-200 rounded-lg p-3 bg-slate-50">
-                    {[
-                      { id: 'aer1', label: 'Aeronave 1' },
-                      { id: 'aer2', label: 'Aeronave 2' },
-                      { id: 'aer3', label: 'Aeronave 3' },
-                    ].map(({ id, label }) => (
-                      <label key={id} htmlFor={id} className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors cursor-pointer select-none`}>
-                        <input type="checkbox" id={id} className="w-4 h-4 rounded accent-[var(--azul-escuro)] cursor-pointer" />
-                        <span className="text-sm text-slate-700">{label}</span>
-                      </label>
-                    ))}
-                  </div>
-            </div>
-
           <div className="flex justify-end gap-3 pt-1">
             <button onClick={() => setModalEditarAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>
             <button className="px-5 py-2 text-sm bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white rounded-lg transition-colors cursor-pointer">Salvar</button>
@@ -138,54 +62,22 @@ function Pecas() {
 
       <main className="max-w-6xl mx-auto p-6">
 
-        <section className="flex flex-col md:flex-row items-center gap-8 mb-12">
-          <div className="w-full md:w-1/2 text-center md:text-left">
-            <h1 className="text-5xl font-bold text-slate-800 mb-4">Peças</h1>
-            <p className="text-lg text-slate-600">Área dedicada à gestão e visualização das peças usadas nas aeronaves. <span className='text-indigo-500'>Selecione uma peça para ver os detalhes.</span></p>
-          </div>
-
-          <div className="w-full md:w-1/2 aspect-video bg-slate-200 flex items-center justify-center rounded-md">
-            <img src={pecasFoto} alt="Peças" className='rounded-md' />
-          </div>
-        </section>
-
-        <hr className="border-t-2 border-slate-200 mb-8" />
+        <TituloPagina titulo="Peças" paragrafo="Área dedicada à gestão e visualização das peças usadas nas aeronaves." instrucoes="Selecione uma peça para ver os detalhes." imagem={pecasFoto} />
 
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           <div className="lg:col-span-2 flex flex-col gap-6">
-
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-end border-b border-slate-400 w-full sm:w-1/2 gap-2 pb-1">
-                <Search size={16} />
-                <input type="text" placeholder="Buscar peça..." className="bg-transparent focus:outline-none w-full text-slate-700" value={busca} onChange={(e) => setBusca(e.target.value)} />
-              </div>
-              <button className="cursor-pointer bg-[var(--azul-escuro)] hover:bg-[var(--azul)] text-white font-medium py-2 px-6 rounded-[10px] transition-colors w-full sm:w-auto" onClick={() => setModalCriarAberto(true)}>Criar</button>
-            </div>
-
-            <div className="flex flex-col gap-3 p-2 rounded-[10px] bg-[var(--cinza)] max-h-[450px] overflow-y-auto custom-scrollbar">
-              {pecasFiltradas.map((peca) => (
-                <button key={peca.id} onClick={() => setSelecionada(peca)} className={`shrink-0 flex items-center justify-between p-4 border rounded-[15px] text-left transition-colors bg-white ${selecionada?.id === peca.id ? 'border-[var(--azul)] bg-indigo-50' : 'border-slate-300 hover:bg-slate-50'}`}>
-                  <span className="text-lg text-slate-700">ID: {peca.id} - {peca.nome}</span>
-                  <div className={`w-5 h-5 rounded-full border-2 ${selecionada?.id === peca.id ? 'border-[var(--azul-escuro)] bg-[var(--azul)]' : 'border-slate-400 bg-slate-200'}`} />
-                </button>
-              ))}
-
-              {pecasFiltradas.length === 0 && (
-                <p className="text-slate-500 text-center py-4">Nenhuma peça encontrada.</p>
-              )}
-            </div>
+            <PesquisaCriar placeholder="Buscar peça..." busca={busca} setBusca={setBusca} onCriar={() => setModalCriarAberto(true)} />
+            <Lista itens={pecasFiltradas} itemSelecionado={selecionada} onSelecionar={setSelecionada} extrairId={(peca) => peca.id} extrairTexto={(peca) => `ID: ${peca.id} - ${peca.nome}`} mensagemVazia="Nenhuma peça encontrada." />
           </div>
 
           <aside className="lg:col-span-1 h-full">
             {selecionada ? (
               <div className="flex flex-col h-full bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm">
-
                 <div className="pb-5 border-b border-slate-100">
                   <h2 className="text-2xl font-bold text-slate-800 tracking-tight leading-none">{selecionada.nome}</h2>
                   <p className="text-sm font-medium text-slate-500 mt-2">Detalhes do registro</p>
                 </div>
-
                 <div className="py-6 flex-1 flex flex-col gap-4">
                   {selecionada.dados.map((dado, index) => (
                     <div key={index} className="flex items-start gap-3">
@@ -194,18 +86,10 @@ function Pecas() {
                     </div>
                   ))}
                 </div>
-
                 <div className="pt-4 flex items-center gap-3 mt-auto">
-                  <button onClick={() => setModalEditarAberto(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm">
-                    <SquarePen size={18} strokeWidth={2.5} />
-                    Editar
-                  </button>
-
-                  <button className="flex items-center justify-center w-11 h-11 text-slate-400 bg-transparent hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors cursor-pointer shrink-0">
-                    <Trash2 size={18} strokeWidth={2.5} />
-                  </button>
+                  <button onClick={() => setModalEditarAberto(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--azul-escuro)] border border-slate-300 text-white rounded-lg hover:bg-[var(--azul)] hover:border-slate-400 transition-all text-sm font-semibold cursor-pointer shadow-sm"><SquarePen size={18} strokeWidth={2.5} />Editar</button>
+                  <button className="flex items-center justify-center w-11 h-11 text-slate-400 bg-transparent hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors cursor-pointer shrink-0"><Trash2 size={18} strokeWidth={2.5} /></button>
                 </div>
-
               </div>
             ) : (
               <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-6 bg-transparent border border-transparent">

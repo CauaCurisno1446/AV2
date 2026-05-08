@@ -1,7 +1,12 @@
 import { useState } from 'react';
-import { Search, SquarePen, Trash2, MousePointerClick} from 'lucide-react';
+import { SquarePen, Trash2, MousePointerClick} from 'lucide-react';
 import Modal from '../components/Modal';
 import aerFoto from "../assets/img/boeing.jpg"
+import InputSelect from '../components/InputSelect';
+import InputTexto from '../components/InputTexto';
+import TituloPagina from '../components/TituloPagina';
+import PesquisaCriar from '../components/PesquisaCriar';
+import { Lista } from '../components/Lista';
 
 const mockAeronaves = [
   { id: 1, nome: 'Aeronave 1', dados: ['Modelo: Boeing 737', 'Tipo: Comercial', 'Capacidade: 189', 'Alcance: 300 Km'], etapas: ['Colocar mola', 'Acoplar janelas'], pecas: ['Motor GE90', 'Trem de pouso'], testes: ['Aerodinâmico: Aprovado', 'Elétrico: Aprovado', 'Hidráulico: Reprovado'], },
@@ -20,39 +25,16 @@ function Aeronaves() {
     a.nome.toLowerCase().includes(busca.toLowerCase())
   );
 
-
-  const styleInput = "border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all"
-  
-
   return (
     <div className="min-h-screen bg-[var(--fundo)] text-slate-800 font-sans">
 
         {modalCriar && (
             <Modal titulo="Nova Aeronave" onClose={() => setModalCriarAberto(false)}>
                 <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Modelo</label>
-                        <input type="text" placeholder="Ex: Aeronave 123" className={styleInput} />
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Tipo</label>
-                        <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                            <option value="">Selecione...</option>
-                            <option>Comercial</option>
-                            <option>Militar</option>
-                        </select>
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Capacidade</label>
-                        <input type="text" placeholder="Ex: 300" className={styleInput} />
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Alcance</label>
-                        <input type="text" placeholder="Ex: 1089" className={styleInput} />
-                    </div>
+                    <InputTexto label='Modelo' placeholder='Ex: Aeronave 123' name="modelo" id='modelo'/>
+                    <InputSelect label='Tipo' options={["Comercial", "Militar"]} name='tipo' id='tipo'/>
+                    <InputTexto label='Capacidade' placeholder='Ex: 300' name='capacidade' id='capacidade'/>
+                    <InputTexto label='Alcance' placeholder='Ex: 1089' name='alcance' id='alcance'/>
                 </div>
 
                 <div className="flex justify-end gap-3 pt-1">
@@ -65,29 +47,12 @@ function Aeronaves() {
         {modalEditar && (
             <Modal titulo="Editar Aeronave" onClose={() => setModalEditarAberto(false)}>
                 <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Modelo</label>
-                        <input type="text" placeholder="Ex: Aeronave 123" className={styleInput} />
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Tipo</label>
-                        <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                            <option value="">Selecione...</option>
-                            <option>Comercial</option>
-                            <option>Militar</option>
-                        </select>
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Capacidade</label>
-                        <input type="text" placeholder="Ex: 300" className={styleInput} />
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Alcance</label>
-                        <input type="text" placeholder="Ex: 1089" className={styleInput} />
-                    </div>
+                    <div className="flex flex-col gap-4">
+                    <InputTexto label='Modelo' placeholder='Ex: Aeronave 123' name="modeloEditar" id='modeloEditar'/>
+                    <InputSelect label='Tipo' options={["Comercial", "Militar"]} name='tipoEditar' id='tipoEditar'/>
+                    <InputTexto label='Capacidade' placeholder='Ex: 300' name='capacidadeEditar' id='capacidadeEditar'/>
+                    <InputTexto label='Alcance' placeholder='Ex: 1089' name='alcanceEditar' id='alcanceEditar'/>
+                </div>
                 </div>
 
                 <div className="flex justify-end gap-3 pt-1">
@@ -100,33 +65,9 @@ function Aeronaves() {
         {modalTeste && (
             <Modal titulo="Registrar Testes" onClose={() => setModalTesteAberto(false)}>
                 <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Aerodinâmico</label>
-                        <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                            <option value="">Selecione...</option>
-                            <option>Aprovado</option>
-                            <option>Reprovado</option>
-                        </select>
-                        
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Elétrico</label>
-                        <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                            <option value="">Selecione...</option>
-                            <option>Aprovado</option>
-                            <option>Reprovado</option>
-                        </select>
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm font-medium text-slate-600">Hidráulico</label>
-                        <select className="border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all bg-white">
-                            <option value="">Selecione...</option>
-                            <option>Aprovado</option>
-                            <option>Reprovado</option>
-                        </select>
-                    </div>
+                    <InputSelect label='Aerodinâmico' options={["Aprovado", "Reprovado"]} name='TesteAer' id='TesteAer' />
+                    <InputSelect label='Hidráulico' options={["Aprovado", "Reprovado"]} name='TesteHid' id='TesteHid' />
+                    <InputSelect label='Elétrico' options={["Aprovado", "Reprovado"]} name='TesteEle' id='TesteEle' />
                 </div>
 
                 <div className="flex justify-end gap-3 pt-1">
@@ -137,43 +78,16 @@ function Aeronaves() {
         )}
 
       <main className="max-w-6xl mx-auto p-6">
-        
-        <section className="flex flex-col md:flex-row items-center gap-8 mb-12">
-          <div className="w-full md:w-1/2 aspect-video bg-slate-200 flex items-center justify-center rounded-md">
-             <img src={aerFoto} alt="Boeing" className='rounded-md'/>
-          </div>
-          <div className="w-full md:w-1/2 text-center md:text-left">
-            <h1 className="text-5xl font-bold text-slate-800 mb-4">Aeronaves</h1>
-            <p className="text-lg text-slate-600">Área dedicada à gestão e visualização das aeronaves da companhia. <span className='text-indigo-500'>Selecione uma aeronave para ver os detalhes.</span></p>
-          </div>
-        </section>
 
-        <hr className="border-t-2 border-slate-200 mb-8" />
+        <TituloPagina titulo='Aeronaves' paragrafo='Área dedicada à gestão e visualização das aeronaves da companhia.' instrucoes='Selecione uma aeronave para ver os detalhes.' imagem={aerFoto} />
 
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           <div className="lg:col-span-2 flex flex-col gap-6">
             
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-end border-b border-slate-400 w-full sm:w-1/2 gap-2 pb-1">
-                <Search size={16} />
-                <input type="text" placeholder="Buscar aeronave..." className="bg-transparent focus:outline-none w-full text-slate-700" value={busca} onChange={(e) => setBusca(e.target.value)} />
-              </div>
-              <button className="cursor-pointer bg-[var(--azul-escuro)] hover:hover:bg-[var(--azul)] text-white font-medium py-2 px-6 rounded-[10px] transition-colors w-full sm:w-auto" onClick={() => setModalCriarAberto(true)}>Criar</button>
-            </div>
+            <PesquisaCriar placeholder='Buscar Aeronave...' busca={busca} setBusca={setBusca} onCriar={() => setModalCriarAberto(true)} />
 
-            <div className="flex flex-col gap-3 p-2 rounded-[10px] bg-[var(--cinza)] max-h-[450px] overflow-y-auto custom-scrollbar">
-              {aeronavesFiltradas.map((aeronave) => (
-                <button key={aeronave.id} onClick={() => setSelecionada(aeronave)} className={`shrink-0 flex items-center justify-between p-4 border rounded-[15px] text-left transition-colors bg-white ${selecionada?.id === aeronave.id ? 'border-[var(--azul)] bg-indigo-50' : 'border-slate-300 hover:bg-slate-50'}`}>
-                  <span className="text-lg text-slate-700">ID: {aeronave.id} - {aeronave.nome}</span>
-                  <div className={`w-5 h-5 rounded-full border-2 ${selecionada?.id === aeronave.id ? 'border-[var(--azul-escuro)] bg-[var(--azul)]' : 'border-slate-400 bg-slate-200'}`} />
-                </button>
-              ))}
-              
-              {aeronavesFiltradas.length === 0 && (
-                <p className="text-slate-500 text-center py-4">Nenhuma aeronave encontrada.</p>
-              )}
-            </div>
+            <Lista itens={aeronavesFiltradas} itemSelecionado={selecionada} onSelecionar={setSelecionada} extrairId={(aeronave) => aeronave.id} extrairTexto={(aeronave) => aeronave.nome} mensagemVazia="Nenhuma aeronave encontrada." />
           </div>
 
           <aside className="lg:col-span-1 h-full">

@@ -3,6 +3,7 @@ import { SquarePen, Shield, Mail, Phone, MapPin, Calendar, LogOut, RectangleElli
 import Modal from '../components/Modal';
 import { NavLink } from 'react-router-dom';
 import InputSenha from '../components/InputSenha';
+import InputTexto from '../components/InputTexto';
 
 
 const mockUsuario = {
@@ -20,9 +21,8 @@ const mockUsuario = {
 function Usuario() {
   const [modalAberto, setModalAberto] = useState(false);
   const [modalSenha, setModalSenhaAberto] = useState(false);
-  const [dados, setDados] = useState(mockUsuario);
+  const [dados] = useState(mockUsuario);
 
-  const styleInput = "border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[var(--azul)] focus:ring-2 focus:ring-[var(--azul-escuro)]/10 transition-all";
 
   return (
     <div className="min-h-screen bg-[var(--fundo)] text-slate-800 font-sans">
@@ -30,18 +30,10 @@ function Usuario() {
       {modalAberto && (
         <Modal titulo="Editar Perfil" onClose={() => setModalAberto(false)}>
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Nome completo</label>
-              <input type="text" value={dados.nome} onChange={(e) => setDados({...dados, nome: e.target.value})} className={styleInput} />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">E-mail</label>
-              <input type="email" value={dados.email} onChange={(e) => setDados({...dados, email: e.target.value})} className={styleInput} />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-600">Telefone</label>
-              <input type="text" value={dados.telefone} onChange={(e) => setDados({...dados, telefone: e.target.value})} className={styleInput} />
-            </div>
+            <InputTexto label='Nome' placeholder='Ex: Kauan' name='nomeEditar' id='nomeEditar'/>
+            <InputTexto label='E-mail' placeholder='Ex: caua@email.com' name='emailEditar' id='emailEditar'/>
+            <InputTexto label='Endereço' placeholder='Ex: Rua dos Astronautas' name='endEditar' id='endEditar'/>
+            <InputTexto label='Telefone' placeholder='Ex: (12) 1212121212' name='telEditar' id='telEditar'/>
           </div>
           <div className="flex justify-end gap-3 pt-6">
             <button onClick={() => setModalAberto(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">Cancelar</button>

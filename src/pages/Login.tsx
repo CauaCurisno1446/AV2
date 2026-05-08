@@ -3,9 +3,10 @@
 import { NavLink } from "react-router-dom";
 import Aviao from "../assets/img/aviao.png"
 import LogoDark from "../components/LogoDark"
+import InputTexto from "../components/InputTexto";
+import InputSenha from "../components/InputSenha";
 
 function Login(){
-  const StyleInput = "w-full h-[60px] p-4 shadow-xl rounded-[10px] focus-within:outline-2 focus-within:outline-[var(--azul)]"
 
   return (
     <section className="w-full min-h-screen grid grid-cols-1 md:grid-cols-[1fr_1fr]">
@@ -29,11 +30,13 @@ function Login(){
           <br />
 
           <div className="flex flex-col gap-4 w-full">
-            <input type="text" placeholder="Usuário..." className={StyleInput} />
-            <input type="password" placeholder="Senha..." className={StyleInput} />
+            <InputTexto label="Usuário" placeholder="Insira o usuário" name="usuario" id="usuario" />
+            <InputSenha label="Senha" placeholder="Insira a senha" name="senha" id="senha" />
+            {/* <input type="text" placeholder="Usuário..." className={StyleInput} />
+            <input type="password" placeholder="Senha..." className={StyleInput} /> */}
 
-            <NavLink to="/home">
-              <input type="submit" value="Entrar" className="bg-[var(--azul-escuro)] hover:bg-[var(--azul)] flex items-center justify-center h-[50px] w-full sm:w-1/3 md:w-1 lg:w-1/6 rounded-[10px] text-[var(--branco)] duration-200 cursor-pointer" />
+            <NavLink to="/home" className="w-1/4">
+              <input type="submit" value="Entrar" className="bg-[var(--azul-escuro)] hover:bg-[var(--azul)] flex items-center justify-center h-[50px] w-full sm:w-1/3 md:w-1 lg:w-full rounded-[10px] text-[var(--branco)] duration-200 cursor-pointer" />
             </NavLink>
           </div>
         </div>

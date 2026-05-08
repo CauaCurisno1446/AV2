@@ -18,10 +18,10 @@ function Footer() {
           <div className="flex flex-col space-y-4">
             <span className="text-[10px] uppercase tracking-[0.2em] text-stone-400 font-bold">Explorar</span>
             <nav className="flex flex-col space-y-2 text-sm font-medium">
-              <a href="#" className="hover:line-through transition-all decoration-1">Lançamentos</a>
-              <a href="#" className="hover:line-through transition-all decoration-1">Clássicos</a>
-              <a href="#" className="hover:line-through transition-all decoration-1">Entrevistas</a>
-              <a href="#" className="hover:line-through transition-all decoration-1">Sobre o Projeto</a>
+              <a href="#" className="hover:line-through transition-all decoration-1">Aeronaves</a>
+              <a href="#" className="hover:line-through transition-all decoration-1">Peças</a>
+              <a href="#" className="hover:line-through transition-all decoration-1">Etapas</a>
+              <a href="#" className="hover:line-through transition-all decoration-1">Funcionárioas</a>
             </nav>
           </div>
 

@@ -1,10 +1,10 @@
-import Logo from "./Logo"
-import { NavLink } from "react-router-dom"
-import { User, Menu, X } from "lucide-react"
-import { useState } from "react"
+import Logo from "./Logo";
+import { NavLink } from "react-router-dom";
+import { User, Menu, X } from "lucide-react";
+import { useState } from "react";
 
 function Header() {
-  const [menuAberto, setMenuAberto] = useState(false)
+  const [menuAberto, setMenuAberto] = useState(false);
 
   return (
     <>
@@ -20,7 +20,9 @@ function Header() {
           <NavItem to="/etapas">Etapas</NavItem>
         </nav>
 
-        <button className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-blue-500/25 bg-blue-500/6 text-white hover:bg-blue-500/15 hover:border-blue-500/50 transition-all duration-250" onClick={() => setMenuAberto(v => !v)}>
+        <button
+          className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-blue-500/25 bg-blue-500/6 text-white hover:bg-blue-500/15 hover:border-blue-500/50 transition-all duration-250"
+          onClick={() => setMenuAberto((v) => !v)}>
           {menuAberto ? <X size={16} /> : <Menu size={16} />}
         </button>
 
@@ -39,7 +41,9 @@ function Header() {
         </nav>
 
         <div className="md:hidden flex items-center justify-end gap-2">
-          <NavLink to="/usuario" className="flex items-center justify-center w-9 h-9 rounded-lg border border-blue-500/25 bg-blue-500/6 text-white hover:bg-blue-500/15 hover:border-blue-500/50 transition-all duration-250">
+          <NavLink
+            to="/usuario"
+            className="flex items-center justify-center w-9 h-9 rounded-lg border border-blue-500/25 bg-blue-500/6 text-white hover:bg-blue-500/15 hover:border-blue-500/50 transition-all duration-250">
             <User size={16} />
           </NavLink>
         </div>
@@ -54,25 +58,30 @@ function Header() {
         </div>
       )}
     </>
-  )
+  );
 }
-
 
 function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
   return (
-    <NavLink to={to} className={({ isActive }) => `relative px-3.5 py-1.5 rounded-md text-[11px] font-semibold tracking-widest uppercase font-[Rajdhani,sans-serif] transition-all duration-250 group ${isActive ? "text-blue-400" : "text-white hover:text-white hover:bg-blue-500/8"} `}>
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `relative px-3.5 py-1.5 rounded-md text-[11px] font-semibold tracking-widest uppercase font-[Rajdhani,sans-serif] transition-all duration-250 group ${isActive ? "text-blue-400" : "text-white hover:text-white hover:bg-blue-500/8"} `
+      }>
       {({ isActive }) => (
         <>
           {children}
-          <span className={`absolute bottom-0.5 left-3.5 right-3.5 h-[1.5px] rounded-full bg-blue-400 transition-transform duration-250 origin-left ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+          <span
+            className={`absolute bottom-0.5 left-3.5 right-3.5 h-[1.5px] rounded-full bg-blue-400 transition-transform duration-250 origin-left ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+          />
         </>
       )}
     </NavLink>
-  )
+  );
 }
 
 function Divider() {
-  return <span className="w-px h-5 bg-blue-500/20 mx-1" />
+  return <span className="w-px h-5 bg-blue-500/20 mx-1" />;
 }
 
-export default Header
+export default Header;

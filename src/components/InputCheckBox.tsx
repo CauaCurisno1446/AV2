@@ -1,13 +1,13 @@
 type CheckboxOption = {
   id: string;
   label: string;
-}
+};
 
 type InputCheckProps = {
   label: string;
   options: CheckboxOption[];
   name?: string;
-}
+};
 
 function InputCheckBox({ label, options, name }: InputCheckProps) {
   return (
